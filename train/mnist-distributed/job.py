@@ -38,7 +38,7 @@ env.docker.enabled = True
 worker_count=2 # Tensorflow Distribution Startegy Configuration (number of nodes)
 
 # Env configuration option
-env_option = 3
+env_option = 1
 # build env
 if env_option == 1:
     dockerfile_name=None
