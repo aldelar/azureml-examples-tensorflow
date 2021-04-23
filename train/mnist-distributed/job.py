@@ -78,8 +78,8 @@ src = ScriptRunConfig(
 
 # submit job
 if dockerfile_name:
-    docker_config = dockerfile_name
+    docker_config = env.docker.base_dockerfile
 else:
     docker_config = env.docker.base_image
-run = Experiment(ws, experiment_name).submit(src, tags={'docker': docker_config, 'worker_count': str(worker_count) })
+run = Experiment(ws, experiment_name).submit(src, tags={'worker_count': str(worker_count), 'docker_config': docker_config })
 run.wait_for_completion(show_output=True)

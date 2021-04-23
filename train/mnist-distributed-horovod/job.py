@@ -76,8 +76,8 @@ src = ScriptRunConfig(
 
 # submit job
 if dockerfile_name:
-    docker_config = dockerfile_name
+    docker_config = env.docker.base_dockerfile
 else:
     docker_config = env.docker.base_image
-run = Experiment(ws, experiment_name).submit(src, tags={'docker': docker_config, 'node_count': str(node_count), 'process_count_per_node': str(process_count_per_node) })
+run = Experiment(ws, experiment_name).submit(src, tags={'node_count': str(node_count), 'process_count_per_node': str(process_count_per_node), 'docker_config': docker_config })
 run.wait_for_completion(show_output=True)
