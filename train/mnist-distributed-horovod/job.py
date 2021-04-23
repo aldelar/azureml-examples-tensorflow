@@ -40,7 +40,7 @@ node_count=2 # number of nodes
 process_count_per_node=8 # number of GPUs per node
 
 # Env configuration option
-env_option = 3
+env_option = 2
 # build env
 if env_option == 1:
     dockerfile_name=None

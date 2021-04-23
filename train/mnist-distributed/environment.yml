@@ -5,5 +5,4 @@ dependencies:
   - python=3.8
   - pip:
     - azureml-defaults
-    - azureml-mlflow
     - tensorflow-gpu==2.4.1

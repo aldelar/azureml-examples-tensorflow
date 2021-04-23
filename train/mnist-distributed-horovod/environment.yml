@@ -6,4 +6,4 @@ dependencies:
   - pip:
     - azureml-defaults
     - tensorflow-gpu==2.4.1
-    - horovod
+    - horovod[tensorflow,keras]
