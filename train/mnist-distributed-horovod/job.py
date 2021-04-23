@@ -31,34 +31,31 @@ environment_name = "tf-gpu-horovod-example"
 experiment_name = "tf-mnist-distributed"
 compute_name = "gpu-8x-a100"
 
-#
-dockerfile_name = None
-
 # create environment
 env = Environment.from_conda_specification(environment_name, environment_file)
 env.docker.enabled = True
 
-# Option #1
-# specify a GPU base image
-#env.docker.base_image = (
-    #"mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04"
-    #"mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04"
-#)
+# Experiment configuration
+process_count_per_node=8 # number of GPU per node
+node_count=2 # number of nodes
 
-# Option #2
-# specify a Dockerfile
-dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'
-env.docker.base_image=None
-env.docker.base_dockerfile=open(dockerfile_name, "r").read()
-
-# Create a `ScriptRunConfig` to specify the training script & arguments, environment, and cluster to run on.
-#
-# Create an `MpiConfiguration` to run an MPI/Horovod job.
-# Specify a `process_count_per_node` equal to the number of GPUs available per node of your cluster.
+# Env configuration option
+env_option = 3
+# build env
+if env_option == 1:
+    dockerfile_name=None
+    env.docker.base_image = "mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04"
+elif env_option == 2:
+    dockerfile_name=None
+    env.docker.base_image = "mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04"
+elif env_option == 3:    
+    dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'        
+    env.docker.base_image=None
+    env.docker.base_dockerfile=open(dockerfile_name, "r").read()
+else:
+    raise Exception('Unsupported env_option')
 
 # create distributed config
-process_count_per_node=8
-node_count=2
 distr_config = MpiConfiguration(process_count_per_node=process_count_per_node, node_count=node_count)
 
 # create arguments

@@ -34,18 +34,24 @@ compute_name = "gpu-8x-a100"
 env = Environment.from_conda_specification(environment_name, environment_file)
 env.docker.enabled = True
 
-# Option #1
-# specify a GPU base image
-#env.docker.base_image = (
-    #"mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04"
-    #"mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04"
-#)
+# Experiment configuration
+worker_count=2 # Tensorflow Distribution Startegy Configuration (number of nodes)
 
-# Option #2
-# specify a Dockerfile
-dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'
-env.docker.base_image=None
-env.docker.base_dockerfile=open(dockerfile_name, "r").read()
+# Env configuration option
+env_option = 3
+# build env
+if env_option == 1:
+    dockerfile_name=None
+    env.docker.base_image = "mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04"
+elif env_option == 2:
+    dockerfile_name=None
+    env.docker.base_image = "mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04"
+elif env_option == 3:    
+    dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'        
+    env.docker.base_image=None
+    env.docker.base_dockerfile=open(dockerfile_name, "r").read()
+else:
+    raise Exception('Unsupported env_option')
 
 # Create a `ScriptRunConfig` to specify the training script & arguments, environment, and cluster to run on.
 #
@@ -58,7 +64,6 @@ env.docker.base_dockerfile=open(dockerfile_name, "r").read()
 # You can access `TF_CONFIG` from your training script if you need to via `os.environ['TF_CONFIG']`.
 
 # create distributed config
-worker_count=2
 distr_config = TensorflowConfiguration(worker_count=worker_count, parameter_server_count=0)
 
 # create args
