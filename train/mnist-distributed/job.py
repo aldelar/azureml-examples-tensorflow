@@ -43,7 +43,7 @@ env.docker.enabled = True
 
 # Option #2
 # specify a Dockerfile
-dockerfile_name = 'Dockerfile'
+dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'
 env.docker.base_image=None
 env.docker.base_dockerfile=open(dockerfile_name, "r").read()
 
@@ -78,7 +78,7 @@ src = ScriptRunConfig(
 
 # submit job
 if dockerfile_name:
-    docker_config = env.docker.base_dockerfile
+    docker_config = dockerfile_name
 else:
     docker_config = env.docker.base_image
 run = Experiment(ws, experiment_name).submit(src, tags={'distr_config:': 'TensorflowConfiguration', 'worker_count': worker_count, 'docker_config': docker_config })
