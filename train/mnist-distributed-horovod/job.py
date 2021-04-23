@@ -28,7 +28,7 @@ environment_file = str(prefix.joinpath("environment.yml"))
 
 # azure ml settings
 environment_name = "tf-gpu-horovod-example"
-experiment_name = "tf-mnist-distributed-horovod-example"
+experiment_name = "tf-mnist-distributed"
 compute_name = "gpu-8x-a100"
 
 #
@@ -79,5 +79,5 @@ if dockerfile_name:
     docker_config = env.docker.base_dockerfile
 else:
     docker_config = env.docker.base_image
-run = Experiment(ws, experiment_name).submit(src, tags={'node_count': str(node_count), 'process_count_per_node': str(process_count_per_node), 'docker_config': docker_config })
+run = Experiment(ws, experiment_name).submit(src, tags={'distr_config:': 'MpiConfiguration', 'node_count': node_count, 'process_count_per_node': process_count_per_node, 'docker_config': docker_config })
 run.wait_for_completion(show_output=True)
