@@ -27,8 +27,8 @@ script_name = "train.py"
 environment_file = str(prefix.joinpath("environment.yml"))
 
 # azure ml settings
-environment_name = "tf-gpu-horovod-example"
-experiment_name = "tf-mnist-distributed"
+environment_name = "tensorflow-gpu-example"
+experiment_name = "tensorflow-mnist-distributed"
 compute_name = "gpu-8x-a100"
 
 # create environment
