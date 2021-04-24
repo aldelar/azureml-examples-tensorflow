@@ -1,0 +1,6 @@
+FROM mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04
+
+# HOROVOD build variables to support installation via a conda environment for TensorFlow 2.4+
+ENV HOROVOD_WITH_TENSORFLOW=1
+ENV HOROVOD_WITH_PYTORCH=0
+ENV HOROVOD_WITH_MXNET=0

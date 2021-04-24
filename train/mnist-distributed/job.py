@@ -38,7 +38,7 @@ env.docker.enabled = True
 worker_count=2 # Tensorflow Distribution Startegy Configuration (number of nodes)
 
 # Env configuration option
-env_option = 1
+env_option = 4
 # build env
 if env_option == 1:
     dockerfile_name=None
@@ -48,6 +48,10 @@ elif env_option == 2:
     env.docker.base_image = "mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04"
 elif env_option == 3:    
     dockerfile_name = 'Dockerfile-cuda11.1.1-cudnn8-devel-ubuntu18.04'        
+    env.docker.base_image=None
+    env.docker.base_dockerfile=open(dockerfile_name, "r").read()
+elif env_option == 4:
+    dockerfile_name = 'Dockerfile-cuda11.0.3-cudnn8-ubuntu18.04'
     env.docker.base_image=None
     env.docker.base_dockerfile=open(dockerfile_name, "r").read()
 else:
