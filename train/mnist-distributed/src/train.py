@@ -96,7 +96,7 @@ def main():
     tf_config = json.loads(os.environ["TF_CONFIG"])
     num_workers = len(tf_config["cluster"]["worker"])
 
-    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
+    strategy = tf.distribute.MultiWorkerMirroredStrategy()
 
     # Here the batch size scales up by number of workers since
     # `tf.data.Dataset.batch` expects the global batch size.
